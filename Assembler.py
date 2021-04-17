@@ -116,7 +116,6 @@ def pass1(inputFile, outputFile):
                         continue  
                     elif(line[1]=='END'):
                         intermadiateData[len(intermadiateData)-4]=''
-                        pcLoc=pcLoc+3
                         for j in literals:
                                 if(star(symTab)==-1):
                                     currantSymTab.append('*')
@@ -147,7 +146,6 @@ def pass1(inputFile, outputFile):
                     currentLine.append('')
                     intermadiateData= np.append(intermadiateData,currentLine)
                     currentLine=[]
-                    pcLoc=pcLoc+3
                     
                     for j in literals:
                         if(star(symTab)==-1):
@@ -172,7 +170,10 @@ def pass1(inputFile, outputFile):
                     currentLine.append(hex(pcLoc)[2:].upper())
                     currentLine.append('')
                     currentLine.append(line[0])
-                    currentLine.append(line[1])
+                    if(line[0]=='RSUB'):
+                         currentLine.append('')
+                    else:
+                        currentLine.append(line[1])
                     intermadiateData= np.append(intermadiateData,currentLine)
                     currentLine=[]
                     if(isTheMnemonicIsExist(line[0])):
@@ -198,7 +199,6 @@ def pass1(inputFile, outputFile):
                     
                     elif(line[0]=='END'):
                         intermadiateData[len(intermadiateData)-4]=''
-                        pcLoc=pcLoc+3
                         for j in literals:
                             if(star(symTab)==-1):
                                 currantSymTab.append('*')
@@ -363,7 +363,7 @@ def pass2(inputFile, outputFile):
               if(i[1]=='RSUB'):
                   i.append('4C0000')
        file.close()
-       file = open(outputFile,"w")
+       file = open('test.lst',"w")
        for i in aux:
             for j in i:
                 file.write(j)
@@ -371,7 +371,7 @@ def pass2(inputFile, outputFile):
             file.write(' \n')     
         
        file.close()
-       file= open('test.lst','w')
+       file= open(outputFile,'w')
        arr=[]
        c=0
        for i in aux:
@@ -397,7 +397,7 @@ def pass2(inputFile, outputFile):
                            file.write('T^')
                            file.write(arr[0].zfill(6))
                            file.write('^')
-                           file.write(hex(int(c*0.5))[2:].zfill(2).upper())
+                           file.write(hex(int(math.ceil(c*0.5)))[2:].zfill(2).upper())
                            c=0
                            file.write('^')
                            for i in range(len(arr)):
@@ -422,7 +422,7 @@ def pass2(inputFile, outputFile):
                         file.write('T^')
                         file.write(arr[0].zfill(6))
                         file.write('^')
-                        file.write(hex(int(c*0.5))[2:].zfill(2).upper())
+                        file.write(hex(int(math.ceil(c*0.5)))[2:].zfill(2).upper())
                         c=0
                         file.write('^')
                         for i in range(len(arr)):
