@@ -309,21 +309,21 @@ def pass2(inputFile, outputFile):
                        if(i[3][-1]=='X' and i[3][-2]):
                               final = existX(aux,i[3][:-2],True,True)
                               if(final!=-1):
-                                    opcode = opcode+ final
+                                    opcode = opcode+ final.zfill(4)
                                     i.append(opcode)
                               else:
                                   print("Wrong in ", i[3])
                        elif(i[3][0]=='='):
                            final= existX(aux,i[3],False,False)
                            if(final!=-1):
-                               opcode = opcode+ final
+                               opcode = opcode+ final.zfill(4)
                                i.append(opcode)
                            else:
                                print("Wrong in ", i[3])
                        else:
                            final= existX(aux,i[3],False,True)
                            if(final!=-1):
-                               opcode= opcode+final
+                               opcode= opcode+final.zfill(4)
                                i.append(opcode)
                            else:
                                print("Wrong in ", i[3])
@@ -333,21 +333,21 @@ def pass2(inputFile, outputFile):
                        if(i[2][-1]=='X' and i[2][-2]):
                               final = existX(aux,i[2][:-2],True,True)
                               if(final!=-1):
-                                    opcode = opcode+ final
+                                    opcode = opcode+ final.zfill(4)
                                     i.append(opcode)
                               else:
                                   print("Wrong in ", i[2])
                        elif(i[2][0]=='='):
                            final= existX(aux,i[2],False,False)
                            if(final!=-1):
-                               opcode = opcode+ final
+                               opcode = opcode+ final.zfill(4)
                                i.append(opcode)
                            else:
                                print("Wrong in ", i[2])
                        else:
                            final= existX(aux,i[2],False,True)
                            if(final!=-1):
-                               opcode= opcode+final
+                               opcode= opcode+final.zfill(4)
                                i.append(opcode)
                            else:
                                print("Wrong in ", i[2])
@@ -383,31 +383,7 @@ def pass2(inputFile, outputFile):
                file.write('^')
                file.write(theLengthOfProgram[0].zfill(6))
                file.write(' \n') 
-           elif(len(i)==2 and i[0]=='END'):
-               if(len(arr)==0):
-                    file.write('E^')
-                    file.write(aux[0][0].zfill(6))  
-                    file.write(' \n')
-               else:
-                    file.write('T^')
-                    file.write(arr[0].zfill(6))
-                    file.write('^')
-                    file.write(hex(int(math.ceil(c*0.5)))[2:].zfill(2).upper())
-                    c=0
-                    file.write('^')
-                    for i in range(len(arr)):
-                        if( i==0):
-                            continue
-                        elif(i==len(arr)-1):
-                            file.write(arr[i])
-                            file.write(' \n')
-                        else:
-                            file.write(arr[i])
-                            file.write('^')
-                    file.write('E^')
-                    file.write(aux[0][0].zfill(6))  
-                    file.write(' \n')
-                    arr=[]
+           
 
            else:
                if(len(i)==1 or len(i)==2):
@@ -460,6 +436,26 @@ def pass2(inputFile, outputFile):
                         arr.append(i[0])
                         arr.append(i[len(i)-1])
                         c=c+len(i[len(i)-1])
+       if(len(arr)>0):
+           file.write('T^')
+           file.write(arr[0].zfill(6))
+           file.write('^')
+           file.write(hex(int(math.ceil(c*0.5)))[2:].zfill(2).upper())
+           c=0
+           file.write('^')
+           for j in range(len(arr)):
+                if( j==0):
+                    continue
+                elif(j==len(arr)-1):
+                    file.write(arr[j])
+                    file.write(' \n')
+                else:
+                    file.write(arr[j])
+                    file.write('^')
+       file.write('E^')
+       file.write(aux[0][0].zfill(6))  
+       file.write(' \n')
+
 data = input()
 data = data.split()
 
