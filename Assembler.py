@@ -377,16 +377,38 @@ def pass2(inputFile, outputFile):
        for i in aux:
            if(len(i)==4 and i[2]=="START"):
                file.write('H^')
-               file.write(i[1])
+               file.write(i[1].ljust(6))
                file.write('^')
                file.write(i[0].zfill(6))
                file.write('^')
                file.write(theLengthOfProgram[0].zfill(6))
                file.write(' \n') 
            elif(len(i)==2 and i[0]=='END'):
-               file.write('E^')
-               file.write(aux[0][0].zfill(6))  
-               file.write(' \n')
+               if(len(arr)==0):
+                    file.write('E^')
+                    file.write(aux[0][0].zfill(6))  
+                    file.write(' \n')
+               else:
+                    file.write('T^')
+                    file.write(arr[0].zfill(6))
+                    file.write('^')
+                    file.write(hex(int(math.ceil(c*0.5)))[2:].zfill(2).upper())
+                    c=0
+                    file.write('^')
+                    for i in range(len(arr)):
+                        if( i==0):
+                            continue
+                        elif(i==len(arr)-1):
+                            file.write(arr[i])
+                            file.write(' \n')
+                        else:
+                            file.write(arr[i])
+                            file.write('^')
+                    file.write('E^')
+                    file.write(aux[0][0].zfill(6))  
+                    file.write(' \n')
+                    arr=[]
+
            else:
                if(len(i)==1 or len(i)==2):
                    continue
@@ -425,16 +447,19 @@ def pass2(inputFile, outputFile):
                         file.write(hex(int(math.ceil(c*0.5)))[2:].zfill(2).upper())
                         c=0
                         file.write('^')
-                        for i in range(len(arr)):
-                            if( i==0):
+                        for j in range(len(arr)):
+                            if( j==0):
                                 continue
-                            elif(i==len(arr)-1):
-                                file.write(arr[i])
+                            elif(j==len(arr)-1):
+                                file.write(arr[j])
                                 file.write(' \n')
                             else:
-                                file.write(arr[i])
+                                file.write(arr[j])
                                 file.write('^')
                         arr=[]
+                        arr.append(i[0])
+                        arr.append(i[len(i)-1])
+                        c=c+len(i[len(i)-1])
 data = input()
 data = data.split()
 
